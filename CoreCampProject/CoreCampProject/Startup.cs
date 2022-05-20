@@ -43,6 +43,11 @@ namespace CoreCampProject
                 }
                 );
 
+            services.AddMvc().AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AddPageRoute("/Blog/Index", "");
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
