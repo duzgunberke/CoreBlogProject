@@ -53,6 +53,8 @@ namespace CoreCampProject.Controllers
             return View();
         }
 
+        //Deneme
+
         [HttpPost]
         public IActionResult BlogAdd(Blog p)
         {
