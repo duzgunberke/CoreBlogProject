@@ -18,6 +18,7 @@ namespace BusinessLayer.ValidationRules
             RuleFor(X => X.BlogImage).NotEmpty().WithMessage("Blog görseli boş geçilemez");
             RuleFor(X => X.BlogContent).MinimumLength(150).WithMessage("Blog 150 karakteri geçmeli");
             RuleFor(X => X.BlogContent).MaximumLength(15000).WithMessage("Blog 15000 karakteri geçemez");
+            //RuleFor(x => x.CategoryID).NotEmpty().WithMessage("Blog kategorisi boş geçilemez");
         }
     }
 }

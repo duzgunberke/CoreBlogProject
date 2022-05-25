@@ -17,6 +17,7 @@ namespace CoreCampProject.Controllers
     public class BlogController : Controller
     {
         BlogManager blogManager = new BlogManager(new EFBlogRepository());
+        CategoryManager categoryManager = new CategoryManager(new EFCategoryRepository());
 
         public IActionResult Index()
         {
@@ -41,7 +42,6 @@ namespace CoreCampProject.Controllers
         [HttpGet]
         public IActionResult BlogAdd()
         {
-            CategoryManager categoryManager = new CategoryManager(new EFCategoryRepository());
             List<SelectListItem> categoryvalues= (from x in categoryManager.GetList()
                                                   select new SelectListItem
                                                   {
@@ -76,6 +76,40 @@ namespace CoreCampProject.Controllers
                 }
             }
             return View();
+        }
+
+        public IActionResult DeleteBlog (int id)
+        {
+            var blogValue = blogManager.TGetById(id);
+            blogManager.TDelete(blogValue);
+            return RedirectToAction("BlogListByWriter");
+        }
+
+        [HttpGet]
+        public IActionResult EditBlog(int id)
+        {
+            var blogValue = blogManager.TGetById(id);
+            List<SelectListItem> categoryvalues = (from x in categoryManager.GetList()
+                                                   select new SelectListItem
+                                                   {
+                                                       Text = x.CategoryName,
+                                                       Value = x.CategoryID.ToString()
+                                                   }).ToList();
+
+            ViewBag.cv = categoryvalues;
+            return View(blogValue);
+        }
+
+        [HttpPost]
+        public IActionResult EditBlog(Blog p)
+        {
+            //var blogValue = blogManager.TGetById(p.BlogID);
+            //p.BlogCreteDate = DateTime.Parse(blogValue.BlogCreteDate.ToShortDateString());
+            //p.BlogCreteDate = DateTime.Parse(DateTime.Now.ToShortDateString());
+            p.WriterID = 1;
+            p.BlogStatus = true;
+            blogManager.TUpdate(p);
+            return RedirectToAction("BlogListByWriter");
         }
     }
 }

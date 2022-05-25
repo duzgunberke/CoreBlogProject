@@ -23,6 +23,7 @@
     <br />
     @Html.Label("Kategori")
     @Html.DropDownListFor(x => x.CategoryID, (List<SelectListItem>)ViewBag.cv, new { @class = "form-control" })
+    @*@Html.ValidationMessageFor(x => x.CategoryID, "", new { @class = "text-danger" })*@
     <br />
     @Html.Label("Blog İçerik")
     @Html.TextAreaFor(X => X.BlogContent, 15, 3, new { @class = "form-control" })
