@@ -30,7 +30,7 @@ namespace CoreCampProject.Controllers
             {
                 p.WriterStatus = true;
                 p.WriterAbout = "deneme";
-                writerManager.WriterAdd(p);
+                writerManager.TAdd(p);
                 return RedirectToAction("Index", "Blog");
             }
             else

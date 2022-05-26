@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DataAccessLayer.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,11 @@ namespace CoreCampProject.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
+            Context context = new Context();
+            ViewBag.value1 = context.Blogs.Count().ToString();
+            ViewBag.value2 = context.Blogs.Where(x => x.WriterID == 1).Count();
+            ViewBag.value3 = context.Categories.Count();
+
             return View();
         }
     }
