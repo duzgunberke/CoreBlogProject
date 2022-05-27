@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Concrete;
 using BusinessLayer.ValidationRules;
 using CoreCampProject.Models;
+using DataAccessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using FluentValidation.Results;
@@ -19,8 +20,14 @@ namespace CoreCampProject.Controllers
     {
         WriterManager writerManager = new WriterManager(new EFWriterRepository());
         
+        [Authorize]
         public IActionResult Index()
         {
+            var userMail = User.Identity.Name;
+            ViewBag.v = userMail;
+            Context c = new Context();
+            var writerName = c.Writers.Where(X => X.WriterMail == userMail).Select(y => y.WriterFullName).FirstOrDefault();
+            ViewBag.v2 = writerName;
             return View();
         }
 
@@ -52,15 +59,19 @@ namespace CoreCampProject.Controllers
             return PartialView();
         }
 
-        [AllowAnonymous]
+        
         [HttpGet]
         public IActionResult WriterEditProfile()
         {
-            var writerValues = writerManager.TGetById(1);
+            Context c = new Context();
+            var userMail = User.Identity.Name;
+
+            var writerID = c.Writers.Where(X => X.WriterMail == userMail).Select(y => y.WriterID).FirstOrDefault();
+            var writerValues = writerManager.TGetById(writerID);
             return View(writerValues);
         }
 
-        [AllowAnonymous]
+        
         [HttpPost]
         public IActionResult WriterEditProfile(Writer p)
         {

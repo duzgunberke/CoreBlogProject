@@ -22,6 +22,9 @@ namespace EntityLayer.Concrete
         
         public bool NotificationStatus { get; set; }
 
+        public string NotificationColor { get; set; }
+
+
 
 
 

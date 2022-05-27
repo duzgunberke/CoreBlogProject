@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Concrete;
 using BusinessLayer.ValidationRules;
+using DataAccessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using FluentValidation.Results;
@@ -13,18 +14,20 @@ using System.Threading.Tasks;
 
 namespace CoreCampProject.Controllers
 {
-    [AllowAnonymous]
+   
     public class BlogController : Controller
     {
         BlogManager blogManager = new BlogManager(new EFBlogRepository());
         CategoryManager categoryManager = new CategoryManager(new EFCategoryRepository());
+        Context c = new Context();
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             var values = blogManager.GetBlogListWithCategory();
             return View(values);
         }
-
+        [AllowAnonymous]
         public IActionResult BlogReadAll(int id)
         {
             ViewBag.id = id;
@@ -34,7 +37,10 @@ namespace CoreCampProject.Controllers
 
         public IActionResult BlogListByWriter()
         {
-            var values = blogManager.GetListWithCategoryByWriterBM(1);
+            var userMail = User.Identity.Name;
+
+            var writerID = c.Writers.Where(X => X.WriterMail == userMail).Select(y => y.WriterID).FirstOrDefault();
+            var values = blogManager.GetListWithCategoryByWriterBM(writerID);
 
             return View(values);
         }
@@ -42,6 +48,7 @@ namespace CoreCampProject.Controllers
         [HttpGet]
         public IActionResult BlogAdd()
         {
+
             List<SelectListItem> categoryvalues= (from x in categoryManager.GetList()
                                                   select new SelectListItem
                                                   {
@@ -58,13 +65,16 @@ namespace CoreCampProject.Controllers
         [HttpPost]
         public IActionResult BlogAdd(Blog p)
         {
+            var userMail = User.Identity.Name;
+
+            var writerID = c.Writers.Where(X => X.WriterMail == userMail).Select(y => y.WriterID).FirstOrDefault();
             BlogValidator bv = new BlogValidator();
             ValidationResult results = bv.Validate(p);
             if (results.IsValid)
             {
                 p.BlogStatus = true;
                 p.BlogCreteDate = DateTime.Parse(DateTime.Now.ToLongDateString());
-                p.WriterID = 1;
+                p.WriterID = writerID;
                 blogManager.TAdd(p);
                 return RedirectToAction("BlogListByWriter", "Blog");
             }
@@ -106,7 +116,10 @@ namespace CoreCampProject.Controllers
             //var blogValue = blogManager.TGetById(p.BlogID);
             //p.BlogCreteDate = DateTime.Parse(blogValue.BlogCreteDate.ToShortDateString());
             //p.BlogCreteDate = DateTime.Parse(DateTime.Now.ToShortDateString());
-            p.WriterID = 1;
+            var userMail = User.Identity.Name;
+
+            var writerID = c.Writers.Where(X => X.WriterMail == userMail).Select(y => y.WriterID).FirstOrDefault();
+            p.WriterID = writerID;
             p.BlogStatus = true;
             blogManager.TUpdate(p);
             return RedirectToAction("BlogListByWriter");

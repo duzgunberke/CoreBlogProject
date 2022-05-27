@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CoreCampProject.Controllers
 {
-    public class ConatactController : Controller
+    public class ContactController : Controller
     {
         ContactManager contactManager = new ContactManager(new EFContactRepository());
 

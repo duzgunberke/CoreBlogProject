@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLayer.Concrete;
+using DataAccessLayer.EntityFramework;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +10,12 @@ namespace CoreCampProject.ViewComponents.Writer
 {
     public class WriterNatification:ViewComponent
     {
+        NotificationManager notificationManager = new NotificationManager(new EFNotificationRepository());
+
         public IViewComponentResult Invoke()
         {
-            return View();
+            var values = notificationManager.GetList();
+            return View(values);
         }
     }
 }
