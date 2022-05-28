@@ -50,5 +50,12 @@ namespace CoreCampProject.Areas.Admin.Controllers
             }
             return View();
         }
+
+        public IActionResult CategoryDelete(int id)
+        {
+            var category = categoryManager.TGetById(id);
+            categoryManager.TDelete(category);
+            return RedirectToAction("Index");
+        }
     }
 }

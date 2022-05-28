@@ -29,7 +29,7 @@ namespace CoreCampProject.Controllers
         {
             p.CommentDate = DateTime.Parse(DateTime.Now.ToLongDateString());
             p.CommentStatus = true;
-            p.BlogID = 2;
+            p.BlogID = 1004;
             commentManager.CommentyAdd(p);
             return PartialView();
         }

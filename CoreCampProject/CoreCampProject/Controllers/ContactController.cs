@@ -25,7 +25,7 @@ namespace CoreCampProject.Controllers
             p.ContactDate = DateTime.Parse(DateTime.Now.ToShortDateString());
             p.ContactStatus = true;
             contactManager.ContactAdd(p);
-            return RedirectToAction("Index","Blog");
+            return RedirectToAction("Index","Contact");
         }
     }
 }
