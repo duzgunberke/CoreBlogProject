@@ -4,7 +4,7 @@ ASP.Net Core 5.0 ile Entity Framework Core, N Tier Architechture mimarisini API'
 Proje Kullanıcı, Yazar ve Admin Panelli bir Blog sitesidir.
 
 ## Proje Aşamaları:
-* Entity Framework Repository oluşturuldu.
+* Entity Framework Code First yaklaşımı ile repository oluşturuldu.
 * Partial View ve Await Async kullanıldı
 * View Component ile parametre kullanımı gerçekleştirildi.
 * HttpGet ve HttpPost attributeleri kullanıldı.
